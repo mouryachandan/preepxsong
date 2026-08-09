@@ -29,6 +29,11 @@ export class SongsController {
     return this.songsService.getTrending();
   }
 
+  @Get('all')
+  async getAllSongsList() {
+    return this.songsService.getAllSongs();
+  }
+
   @Get('trending')
   async getTrending() {
     return this.songsService.getTrending();

@@ -12,7 +12,7 @@ export const uploadSong = async (formData: FormData) => {
 };
 
 export const getSongs = async () => {
-  const response = await axios.get(`${API_BASE_URL}/songs/trending`);
+  const response = await axios.get(`${API_BASE_URL}/songs/all`);
   return response.data;
 };
 

@@ -78,6 +78,11 @@ export class SongsService {
     return this.mapSongs(songs);
   }
 
+  async getAllSongs() {
+    const songs = await this.songModel.find().sort({ createdAt: -1 }).exec();
+    return this.mapSongs(songs);
+  }
+
   async searchSongs(query: string) {
     const regex = new RegExp(query, 'i');
     const songs = await this.songModel.find({
