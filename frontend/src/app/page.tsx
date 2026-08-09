@@ -102,34 +102,33 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-      {/* Glass Player (Centered on Mobile, Bottom Bar on Desktop) */}
+      {/* Glass Player (Small Centered Card on Mobile, Bottom Bar on Desktop) */}
       {displaySong && (
-        <div className="absolute inset-0 md:inset-auto md:bottom-10 md:left-0 md:right-0 z-20 px-6 md:px-4 flex items-center justify-center pointer-events-none">
-          <div className="w-full max-w-xl mx-auto bg-black/40 backdrop-blur-3xl rounded-[40px] md:rounded-[32px] p-8 md:p-5 flex flex-col md:flex-row items-center gap-6 md:gap-5 border border-white/10 shadow-[0_32px_80px_rgba(0,0,0,0.8)] md:shadow-[0_16px_40px_rgba(0,0,0,0.5)] pointer-events-auto">
+        <div className="absolute inset-0 md:inset-auto md:bottom-10 md:left-0 md:right-0 z-20 px-6 md:px-4 flex items-center justify-center md:block pointer-events-none">
+          <div className="w-full max-w-sm md:max-w-xl mx-auto bg-black/40 backdrop-blur-3xl rounded-[32px] p-6 md:p-5 flex flex-col md:flex-row items-center gap-5 border border-white/10 shadow-[0_16px_40px_rgba(0,0,0,0.5)] pointer-events-auto">
             
             {/* Spinning Album Art */}
-            <div className="relative w-48 h-48 md:w-20 md:h-20 flex-shrink-0">
-              <div className={`w-full h-full rounded-full overflow-hidden border-2 border-white/20 shadow-[0_0_40px_rgba(255,255,255,0.1)] md:shadow-2xl ${isPlaying ? 'animate-[spin_8s_linear_infinite]' : ''}`}>
+            <div className="relative w-32 h-32 md:w-20 md:h-20 flex-shrink-0">
+              <div className={`w-full h-full rounded-full overflow-hidden border-2 border-white/20 shadow-xl md:shadow-2xl ${isPlaying ? 'animate-[spin_8s_linear_infinite]' : ''}`}>
                 <img src={bgImage} alt="cover" className="w-full h-full object-cover" />
               </div>
-              {/* Center hole to look like a CD/Record */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 md:w-4 md:h-4 bg-black/80 rounded-full border border-white/30" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 md:w-4 md:h-4 bg-black/60 rounded-full border border-white/30" />
             </div>
 
             {/* Track Info & Progress */}
-            <div className="w-full md:flex-1 overflow-hidden text-center md:text-left">
-              <h2 className="text-white font-bold text-2xl md:text-base truncate md:pr-2 mb-1 md:mb-0">
+            <div className="w-full md:flex-1 overflow-hidden text-center md:text-left mt-2 md:mt-0">
+              <h2 className="text-white font-bold text-lg md:text-base truncate md:pr-2 mb-1">
                 {displaySong.name}
               </h2>
-              <p className="text-white/60 text-base md:text-xs truncate md:pr-2 mb-4 md:mb-2">
+              <p className="text-white/60 text-sm md:text-xs truncate md:pr-2 mb-4 md:mb-2">
                 {displaySong.primaryArtists}
               </p>
 
               {/* Progress Bar & Timers */}
-              <div className="flex items-center gap-3 mt-1">
-                <span className="text-xs text-white/50 w-10 text-right md:hidden">{formatTime(progress)}</span>
+              <div className="flex items-center gap-3 md:gap-2 mt-1">
+                <span className="text-[10px] text-white/50 w-8 text-right md:hidden">{formatTime(progress)}</span>
                 <div 
-                  className="flex-1 h-2 bg-white/20 rounded-full overflow-hidden cursor-pointer flex items-center group"
+                  className="flex-1 h-1.5 md:h-2 bg-white/20 rounded-full overflow-hidden cursor-pointer flex items-center group"
                   onClick={handleSeek}
                 >
                   <div 
@@ -137,7 +136,7 @@ export default function HomePage() {
                     style={{ width: `${(progress / (duration || 1)) * 100}%` }}
                   />
                 </div>
-                <span className="text-xs text-white/50 w-10 text-left md:hidden">{formatTime(duration)}</span>
+                <span className="text-[10px] text-white/50 w-8 text-left md:hidden">{formatTime(duration)}</span>
               </div>
               <div className="hidden md:block text-[10px] text-white/50 mt-1">
                 {formatTime(progress)} / {formatTime(duration)}
@@ -145,9 +144,9 @@ export default function HomePage() {
             </div>
 
             {/* Controls */}
-            <div className="flex items-center justify-center gap-8 md:gap-4 w-full md:w-auto mt-4 md:mt-0 md:pr-2">
+            <div className="flex items-center justify-center gap-6 md:gap-4 w-full md:w-auto mt-4 md:mt-0 md:pr-2">
               <button onClick={prevSong} className="text-white/70 hover:text-white transition-colors">
-                <SkipBack size={32} className="md:w-5 md:h-5" fill="currentColor" />
+                <SkipBack size={24} className="md:w-5 md:h-5" fill="currentColor" />
               </button>
               
               <button 
@@ -158,17 +157,17 @@ export default function HomePage() {
                     togglePlay();
                   }
                 }} 
-                className="w-20 h-20 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center text-black hover:scale-105 active:scale-95 transition-all shadow-[0_0_30px_rgba(255,255,255,0.3)] md:shadow-lg"
+                className="w-14 h-14 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center text-black hover:scale-105 active:scale-95 transition-all shadow-lg"
               >
                 {isPlaying ? (
-                  <Pause size={32} className="md:w-5 md:h-5" fill="currentColor" />
+                  <Pause size={24} className="md:w-5 md:h-5" fill="currentColor" />
                 ) : (
-                  <Play size={32} className="md:w-5 md:h-5 ml-1 md:ml-1" fill="currentColor" />
+                  <Play size={24} className="md:w-5 md:h-5 ml-1 md:ml-1" fill="currentColor" />
                 )}
               </button>
 
               <button onClick={nextSong} className="text-white/70 hover:text-white transition-colors">
-                <SkipForward size={32} className="md:w-5 md:h-5" fill="currentColor" />
+                <SkipForward size={24} className="md:w-5 md:h-5" fill="currentColor" />
               </button>
             </div>
           </div>
