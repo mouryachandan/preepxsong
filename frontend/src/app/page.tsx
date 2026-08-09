@@ -12,7 +12,7 @@ export default function HomePage() {
   const [songs, setSongs] = useState<Song[]>([]);
   const [loading, setLoading] = useState(true);
   const [onlineCount, setOnlineCount] = useState(1);
-  
+
   const { currentSong, isPlaying, playSong, togglePlay, progress, duration, nextSong, prevSong, setProgress } = useAudioPlayer();
 
   useEffect(() => {
@@ -28,14 +28,14 @@ export default function HomePage() {
           clientId = Math.random().toString(36).substring(2, 15);
           sessionStorage.setItem('clientId', clientId);
         }
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001'}/songs/ping`, { 
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001'}/songs/ping`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ clientId })
         });
         const data = await res.json();
         if (data.online) setOnlineCount(data.online);
-      } catch (e) {}
+      } catch (e) { }
     };
 
     if (isPlaying) {
@@ -76,105 +76,105 @@ export default function HomePage() {
   const displaySong = currentSong || (songs.length > 0 ? songs[0] : null);
 
   // The background image matches the song, or a default placeholder
-  const bgImage = displaySong 
+  const bgImage = displaySong
     ? (displaySong.image?.slice(-1)?.[0]?.url || displaySong.image?.[0]?.url)
     : 'https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?q=80&w=2000&auto=format&fit=crop';
 
   return (
     <div className="relative w-full h-screen overflow-hidden flex flex-col bg-transparent text-white font-sans touch-none selection:bg-transparent">
-      
+
       {/* Transparent container to let layout background show through */}
 
-      {/* Top Bar & Title Area */}
-      <div className="relative z-10 w-full p-4 md:p-6 flex flex-row justify-between items-start">
-        
-        {/* PreepX Logo (Left) */}
-        <div className="flex items-center select-none z-20">
-          <Image src={preepxLogo} alt="PreepX Logo" className="h-8 md:h-32 w-auto object-contain" priority />
-        </div>
-        
-        {/* Center Column: Online + Title */}
-        <div className="absolute left-1/2 -translate-x-1/2 top-3 md:top-10 flex flex-col items-center gap-1 md:gap-3 z-10 pointer-events-none">
-          <div className="flex items-center gap-1.5 md:gap-2 bg-black/20 backdrop-blur-md px-2 py-0.5 md:px-3 md:py-1 rounded-full border border-white/10 pointer-events-auto shadow-sm">
-            <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-green-500 animate-pulse" />
-            <span className="text-[9px] md:text-xs font-medium text-white/90">{onlineCount} online</span>
-          </div>
-          <h1 className="text-lg md:text-6xl font-extrabold tracking-tight text-center bg-gradient-to-r from-blue-400 via-blue-200 to-purple-400 bg-clip-text text-transparent drop-shadow-lg whitespace-nowrap">
-            Music with Preepx
-          </h1>
+      {/* Top Header Row */}
+      <div className="relative z-20 w-full p-4 md:p-6 flex flex-row justify-between items-center">
+        {/* Logo (Left) */}
+        <div className="flex items-center select-none z-10">
+          <Image src={preepxLogo} alt="PreepX Logo" className="h-16 md:h-24 w-auto object-contain drop-shadow-md" priority />
         </div>
 
+        {/* Online Pill (Center) */}
+        <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-1.5 md:gap-2 bg-black/30 backdrop-blur-md px-3 py-1 md:px-4 md:py-1.5 rounded-full border border-white/10 shadow-sm pointer-events-auto z-10">
+          <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-green-500 animate-pulse" />
+          <span className="text-[10px] md:text-xs font-medium text-white/90">{onlineCount} online</span>
+        </div>
+        
         {/* Time (Right) */}
-        <div className="flex items-center z-20">
-          <div className="text-white/80 font-medium tracking-wider text-[9px] md:text-sm flex items-center bg-black/20 backdrop-blur-md px-2 md:px-3 py-1 rounded-full border border-white/10 shadow-lg">
+        <div className="flex items-center z-10">
+          <div className="text-white/90 font-medium tracking-wider text-[10px] md:text-xs flex items-center bg-black/30 backdrop-blur-md px-2.5 py-1 md:px-3 md:py-1.5 rounded-full border border-white/10 shadow-sm">
             {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           </div>
         </div>
       </div>
-      {/* Glass Player (Horizontal Pill Centered on Mobile, Bottom Bar on Desktop) */}
+
+      {/* Hero Title */}
+      <div className="absolute top-24 md:top-28 left-1/2 -translate-x-1/2 w-full px-4 text-center z-10 pointer-events-none">
+        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-blue-400 via-blue-200 to-purple-400 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]">
+          Music with Preepx
+        </h1>
+      </div>
+
+      {/* Glass Player (Premium Horizontal Pill Centered) */}
       {displaySong && (
-        <div className="absolute inset-0 md:inset-auto md:bottom-10 md:left-0 md:right-0 z-20 px-4 flex items-center justify-center md:block pointer-events-none">
-          <div className="w-full max-w-[95%] md:max-w-xl mx-auto bg-black/40 backdrop-blur-3xl rounded-[32px] p-4 md:p-5 flex flex-row items-center gap-3 md:gap-5 border border-white/10 shadow-[0_16px_40px_rgba(0,0,0,0.5)] pointer-events-auto">
-            
-            {/* Spinning Album Art */}
-            <div className="relative w-16 h-16 md:w-20 md:h-20 flex-shrink-0">
-              <div className={`w-full h-full rounded-full overflow-hidden border-2 border-white/20 shadow-xl md:shadow-2xl ${isPlaying ? 'animate-[spin_8s_linear_infinite]' : ''}`}>
+        <div className="absolute bottom-[45%] md:bottom-32 left-1/2 -translate-x-1/2 w-[95%] max-w-[400px] md:max-w-[650px] z-30 pointer-events-none">
+          <div className="w-full bg-white/[0.08] backdrop-blur-3xl rounded-[32px] p-2.5 md:p-4 flex flex-row items-center gap-3 md:gap-5 border border-white/[0.15] shadow-[0_16px_40px_rgba(0,0,0,0.5)] pointer-events-auto transition-transform hover:scale-[1.02]">
+
+            {/* Album Art (Square with rounded corners, subtle glow) */}
+            <div className="relative w-14 h-14 md:w-20 md:h-20 flex-shrink-0">
+              <div className={`w-full h-full rounded-2xl md:rounded-[20px] overflow-hidden shadow-lg ${isPlaying ? 'animate-[pulse_4s_ease-in-out_infinite]' : ''}`}>
                 <img src={bgImage} alt="cover" className="w-full h-full object-cover" />
               </div>
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-black/60 rounded-full border border-white/30" />
             </div>
 
             {/* Track Info & Progress */}
-            <div className="flex-1 overflow-hidden text-left">
-              <h2 className="text-white font-bold text-sm md:text-base truncate pr-2 mb-0.5 md:mb-1">
+            <div className="flex-1 overflow-hidden text-left pl-1">
+              <h2 className="text-white font-bold text-sm md:text-lg truncate pr-2 mb-0.5 md:mb-1">
                 {displaySong.name}
               </h2>
-              <p className="text-white/60 text-[10px] md:text-xs truncate pr-2 mb-2">
+              <p className="text-white/60 text-[10px] md:text-sm truncate pr-2 mb-1.5 md:mb-2 font-medium">
                 {displaySong.primaryArtists}
               </p>
 
-              {/* Progress Bar & Timers */}
-              <div className="flex items-center gap-2 mt-1">
-                <div 
-                  className="flex-1 h-1.5 md:h-2 bg-white/20 rounded-full overflow-hidden cursor-pointer flex items-center group"
+              {/* Minimal Progress Bar */}
+              <div className="flex items-center gap-2">
+                <span className="text-[9px] md:text-xs text-white/40 w-7 md:w-10 text-right">{formatTime(progress)}</span>
+                <div
+                  className="flex-1 h-1 md:h-1.5 bg-white/10 rounded-full overflow-hidden cursor-pointer flex items-center group relative"
                   onClick={handleSeek}
                 >
-                  <div 
-                    className="h-full bg-white rounded-full transition-all duration-100 ease-linear relative" 
+                  <div
+                    className="h-full bg-gradient-to-r from-white/80 to-white rounded-full transition-all duration-100 ease-linear"
                     style={{ width: `${(progress / (duration || 1)) * 100}%` }}
                   />
                 </div>
-              </div>
-              <div className="text-[9px] md:text-[10px] text-white/50 mt-1">
-                {formatTime(progress)} / {formatTime(duration)}
+                <span className="text-[9px] md:text-xs text-white/40 w-7 md:w-10 text-left">{formatTime(duration)}</span>
               </div>
             </div>
 
             {/* Controls */}
-            <div className="flex items-center gap-2 md:gap-4 pr-1 md:pr-2">
+            <div className="flex items-center gap-2.5 md:gap-4 pr-2 md:pr-4">
               <button onClick={prevSong} className="text-white/70 hover:text-white transition-colors">
-                <SkipBack size={18} className="md:w-5 md:h-5" fill="currentColor" />
+                <SkipBack size={20} className="md:w-6 md:h-6" fill="currentColor" />
               </button>
-              
-              <button 
+
+              <button
                 onClick={() => {
                   if (!currentSong && displaySong) {
                     playSong(displaySong, songs);
                   } else {
                     togglePlay();
                   }
-                }} 
-                className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-black hover:scale-105 active:scale-95 transition-all shadow-lg"
+                }}
+                className="w-12 h-12 md:w-14 md:h-14 bg-white hover:bg-gray-100 text-black rounded-full flex items-center justify-center transition-all shadow-[0_0_20px_rgba(255,255,255,0.3)] active:scale-95"
               >
                 {isPlaying ? (
-                  <Pause size={18} className="md:w-5 md:h-5" fill="currentColor" />
+                  <Pause size={20} className="md:w-6 md:h-6" fill="currentColor" />
                 ) : (
-                  <Play size={18} className="md:w-5 md:h-5 ml-1" fill="currentColor" />
+                  <Play size={20} className="md:w-6 md:h-6 ml-1" fill="currentColor" />
                 )}
               </button>
 
               <button onClick={nextSong} className="text-white/70 hover:text-white transition-colors">
-                <SkipForward size={18} className="md:w-5 md:h-5" fill="currentColor" />
+                <SkipForward size={20} className="md:w-6 md:h-6" fill="currentColor" />
               </button>
             </div>
           </div>
