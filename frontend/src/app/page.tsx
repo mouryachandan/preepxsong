@@ -77,30 +77,28 @@ export default function HomePage() {
       {/* Transparent container to let layout background show through */}
 
       {/* Top Bar & Title Area */}
-      <div className="relative z-10 w-full p-6">
-        {/* Status Bar */}
-        <div className="flex justify-between items-start relative">
-          {/* PreepX Logo (Left) */}
-          <div className="flex items-center gap-2 select-none z-20">
-            <Image src={preepxLogo} alt="PreepX Logo" className="h-16 md:h-32 w-auto object-contain" priority />
+      <div className="relative z-10 w-full p-4 md:p-6 flex flex-col md:flex-row justify-between items-center md:items-start gap-6">
+        
+        {/* PreepX Logo (Left on Desktop, Center on Mobile) */}
+        <div className="flex items-center select-none z-20 w-full md:w-auto justify-center md:justify-start">
+          <Image src={preepxLogo} alt="PreepX Logo" className="h-16 md:h-32 w-auto object-contain" priority />
+        </div>
+        
+        {/* Center Column: Online + Title */}
+        <div className="flex flex-col items-center gap-2 md:gap-3 z-10 w-full md:absolute md:left-1/2 md:-translate-x-1/2 md:top-10 pointer-events-none">
+          <div className="flex items-center gap-2 bg-black/20 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 pointer-events-auto">
+            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+            <span className="text-xs font-medium text-white/90">{onlineCount} online</span>
           </div>
-          
-          {/* Center Column: Online + Title (Absolutely Centered) */}
-          <div className="absolute left-1/2 -translate-x-1/2 top-0 flex flex-col items-center gap-3 mt-4 z-10 w-full max-w-2xl pointer-events-none">
-            <div className="flex items-center gap-2 bg-black/20 backdrop-blur-md px-2 py-1 md:px-3 rounded-full border border-white/10 pointer-events-auto">
-              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              <span className="text-[10px] md:text-xs font-medium text-white/90">{onlineCount} online</span>
-            </div>
-            <h1 className="text-3xl md:text-6xl font-extrabold tracking-tight text-center bg-gradient-to-r from-blue-400 via-blue-200 to-purple-400 bg-clip-text text-transparent drop-shadow-lg">
-              Music with Preepx
-            </h1>
-          </div>
+          <h1 className="text-3xl md:text-6xl font-extrabold tracking-tight text-center bg-gradient-to-r from-blue-400 via-blue-200 to-purple-400 bg-clip-text text-transparent drop-shadow-lg">
+            Music with Preepx
+          </h1>
+        </div>
 
-          {/* Time (Right) */}
-          <div className="flex items-center gap-3 text-white/80 mt-4 z-20">
-            <div className="text-white/80 font-medium tracking-wider text-sm flex items-center gap-2 bg-black/20 backdrop-blur-md px-3 py-1 rounded-full border border-white/10">
-              {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-            </div>
+        {/* Time (Right on Desktop, Hidden on Mobile) */}
+        <div className="hidden md:flex items-center gap-3 text-white/80 z-20">
+          <div className="text-white/80 font-medium tracking-wider text-sm flex items-center gap-2 bg-black/20 backdrop-blur-md px-3 py-1 rounded-full border border-white/10">
+            {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           </div>
         </div>
       </div>
