@@ -9,9 +9,10 @@ export class SongsController {
   private activeUsers = new Map<string, number>();
 
   @Post('ping')
-  pingUser(@Ip() ip: string) {
+  pingUser(@Ip() ip: string, @Body('clientId') clientId: string) {
     const now = Date.now();
-    this.activeUsers.set(ip || Math.random().toString(), now); // fallback to random if IP is undefined
+    const id = clientId || ip || Math.random().toString();
+    this.activeUsers.set(id, now);
     
     // Clean up users older than 15 seconds
     for (const [key, time] of this.activeUsers.entries()) {
