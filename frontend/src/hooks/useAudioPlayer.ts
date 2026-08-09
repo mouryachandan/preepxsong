@@ -59,6 +59,21 @@ export const useAudioPlayer = create<AudioPlayerState>((set, get) => ({
         progressInterval = setInterval(() => {
           set({ progress: newHowl.seek() as number });
         }, 1000);
+
+        if ('mediaSession' in navigator) {
+          navigator.mediaSession.metadata = new MediaMetadata({
+            title: song.name,
+            artist: song.primaryArtists,
+            artwork: song.image?.map(img => ({
+              src: img.url, sizes: '500x500', type: 'image/jpeg'
+            })) || []
+          });
+
+          navigator.mediaSession.setActionHandler('play', () => get().togglePlay());
+          navigator.mediaSession.setActionHandler('pause', () => get().togglePlay());
+          navigator.mediaSession.setActionHandler('previoustrack', () => get().prevSong());
+          navigator.mediaSession.setActionHandler('nexttrack', () => get().nextSong());
+        }
       },
       onload: () => {
         set({ duration: newHowl.duration() || song.duration || 300 });

@@ -82,16 +82,16 @@ export default function HomePage() {
         <div className="flex justify-between items-start relative">
           {/* PreepX Logo (Left) */}
           <div className="flex items-center gap-2 select-none z-20">
-            <Image src={preepxLogo} alt="PreepX Logo" className="h-32 w-auto object-contain" priority />
+            <Image src={preepxLogo} alt="PreepX Logo" className="h-16 md:h-32 w-auto object-contain" priority />
           </div>
           
           {/* Center Column: Online + Title (Absolutely Centered) */}
           <div className="absolute left-1/2 -translate-x-1/2 top-0 flex flex-col items-center gap-3 mt-4 z-10 w-full max-w-2xl pointer-events-none">
-            <div className="flex items-center gap-2 bg-black/20 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 pointer-events-auto">
+            <div className="flex items-center gap-2 bg-black/20 backdrop-blur-md px-2 py-1 md:px-3 rounded-full border border-white/10 pointer-events-auto">
               <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              <span className="text-xs font-medium text-white/90">{onlineCount} online</span>
+              <span className="text-[10px] md:text-xs font-medium text-white/90">{onlineCount} online</span>
             </div>
-            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-center bg-gradient-to-r from-blue-400 via-blue-200 to-purple-400 bg-clip-text text-transparent drop-shadow-lg">
+            <h1 className="text-3xl md:text-6xl font-extrabold tracking-tight text-center bg-gradient-to-r from-blue-400 via-blue-200 to-purple-400 bg-clip-text text-transparent drop-shadow-lg">
               Music with Preepx
             </h1>
           </div>
@@ -106,11 +106,11 @@ export default function HomePage() {
       </div>
       {/* Floating Glass Player (Bottom) */}
       {displaySong && (
-        <div className="absolute bottom-10 left-0 right-0 z-20 px-4">
-          <div className="w-full max-w-xl mx-auto bg-black/40 backdrop-blur-3xl rounded-[32px] p-5 flex items-center gap-5 border border-white/10 shadow-[0_16px_40px_rgba(0,0,0,0.5)]">
+        <div className="absolute bottom-4 md:bottom-10 left-0 right-0 z-20 px-2 md:px-4">
+          <div className="w-full max-w-xl mx-auto bg-black/40 backdrop-blur-3xl rounded-2xl md:rounded-[32px] p-3 md:p-5 flex items-center gap-3 md:gap-5 border border-white/10 shadow-[0_16px_40px_rgba(0,0,0,0.5)]">
             
             {/* Spinning Album Art */}
-            <div className="relative w-20 h-20 flex-shrink-0">
+            <div className="relative w-14 h-14 md:w-20 md:h-20 flex-shrink-0">
               <div className={`w-full h-full rounded-full overflow-hidden border border-white/20 shadow-2xl ${isPlaying ? 'animate-[spin_8s_linear_infinite]' : ''}`}>
                 <img src={bgImage} alt="cover" className="w-full h-full object-cover" />
               </div>
@@ -145,9 +145,9 @@ export default function HomePage() {
             </div>
 
             {/* Controls */}
-            <div className="flex items-center gap-4 pr-2">
+            <div className="flex items-center gap-2 md:gap-4 pr-1 md:pr-2">
               <button onClick={prevSong} className="text-white/70 hover:text-white transition-colors">
-                <SkipBack size={20} fill="currentColor" />
+                <SkipBack size={18} className="md:w-5 md:h-5" fill="currentColor" />
               </button>
               
               <button 
@@ -158,17 +158,17 @@ export default function HomePage() {
                     togglePlay();
                   }
                 }} 
-                className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-black hover:scale-105 active:scale-95 transition-all shadow-lg"
+                className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center text-black hover:scale-105 active:scale-95 transition-all shadow-lg"
               >
                 {isPlaying ? (
-                  <Pause size={20} fill="currentColor" />
+                  <Pause size={18} className="md:w-5 md:h-5" fill="currentColor" />
                 ) : (
-                  <Play size={20} fill="currentColor" className="ml-1" />
+                  <Play size={18} className="md:w-5 md:h-5 ml-1" fill="currentColor" />
                 )}
               </button>
 
               <button onClick={nextSong} className="text-white/70 hover:text-white transition-colors">
-                <SkipForward size={20} fill="currentColor" />
+                <SkipForward size={18} className="md:w-5 md:h-5" fill="currentColor" />
               </button>
             </div>
           </div>
