@@ -12,12 +12,17 @@ export default function AdminPage() {
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
   const [uploadedSongs, setUploadedSongs] = useState<any[]>([]);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const audioInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    fetchSongs();
-  }, []);
+    if (isAuthenticated) {
+      fetchSongs();
+    }
+  }, [isAuthenticated]);
 
   const fetchSongs = async () => {
     try {
@@ -81,6 +86,52 @@ export default function AdminPage() {
       setLoading(false);
     }
   };
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    const correctEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'preepxsongs8969@gmail.com';
+    const correctPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'preepxsongs8969';
+    
+    if (email === correctEmail && password === correctPassword) {
+      setIsAuthenticated(true);
+    } else {
+      alert('Incorrect Email or Password');
+    }
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-black text-white flex items-center justify-center p-6 relative overflow-hidden">
+        <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-blue-600/30 rounded-full blur-[120px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-purple-600/30 rounded-full blur-[120px]" />
+        
+        <form onSubmit={handleLogin} className="w-full max-w-sm bg-white/5 border border-white/10 p-8 rounded-3xl backdrop-blur-2xl text-center shadow-2xl relative z-10">
+          <h2 className="text-3xl font-extrabold mb-8 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">Admin Login</h2>
+          <input 
+            type="email" 
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Admin Email"
+            autoFocus
+            className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all placeholder:text-white/30 mb-4 text-center tracking-wide"
+          />
+          <input 
+            type="password" 
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all placeholder:text-white/30 mb-6 text-center tracking-widest"
+          />
+          <button 
+            type="submit" 
+            className="w-full py-3 rounded-xl font-bold text-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white shadow-xl hover:shadow-blue-500/25 transition-all"
+          >
+            Login
+          </button>
+        </form>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-black text-white p-6 md:p-12 font-sans flex items-center justify-center relative overflow-hidden">
@@ -191,26 +242,26 @@ export default function AdminPage() {
 
         {/* Uploaded Songs List */}
         <div className="mt-16">
-          <h2 className="text-2xl font-bold mb-6 text-white/90">Uploaded Songs</h2>
+          <h2 className="text-xl font-bold mb-4 text-white/90">Uploaded Songs</h2>
           {uploadedSongs.length === 0 ? (
-            <p className="text-white/50 text-center py-8">No songs uploaded yet.</p>
+            <p className="text-white/50 text-center py-4 text-sm">No songs uploaded yet.</p>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-2 max-h-80 overflow-y-auto pr-2 custom-scrollbar">
               {uploadedSongs.map((song) => (
-                <div key={song.id} className="flex items-center justify-between bg-black/20 border border-white/5 p-4 rounded-xl backdrop-blur-sm transition-all hover:bg-white/5">
-                  <div className="flex items-center gap-4">
-                    <img src={song.image?.[0]?.url || 'https://via.placeholder.com/150'} alt="cover" className="w-12 h-12 rounded-lg object-cover" />
-                    <div>
-                      <h3 className="font-semibold text-white/90">{song.name}</h3>
-                      <p className="text-sm text-white/50">{song.primaryArtists}</p>
+                <div key={song.id} className="flex items-center justify-between bg-black/30 border border-white/5 p-2 rounded-lg backdrop-blur-sm hover:bg-white/5 transition-colors">
+                  <div className="flex items-center gap-3 overflow-hidden">
+                    <img src={song.image?.[0]?.url || 'https://via.placeholder.com/150'} alt="cover" className="w-8 h-8 rounded-md object-cover flex-shrink-0" />
+                    <div className="overflow-hidden">
+                      <h3 className="font-semibold text-white/90 text-sm truncate">{song.name}</h3>
+                      <p className="text-xs text-white/50 truncate">{song.primaryArtists}</p>
                     </div>
                   </div>
                   <button 
                     onClick={() => handleDelete(song.id)}
-                    className="p-3 text-red-400 hover:text-red-300 hover:bg-red-400/10 rounded-xl transition-all"
+                    className="p-2 text-red-400 hover:text-red-300 hover:bg-red-400/10 rounded-lg transition-all flex-shrink-0"
                     title="Delete Song"
                   >
-                    <Trash2 size={20} />
+                    <Trash2 size={16} />
                   </button>
                 </div>
               ))}
