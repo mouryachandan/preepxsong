@@ -19,7 +19,15 @@ export default function AdminPage() {
   const audioInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    const auth = localStorage.getItem('admin_auth');
+    if (auth === 'true') {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  useEffect(() => {
     if (isAuthenticated) {
+      localStorage.setItem('admin_auth', 'true');
       fetchSongs();
     }
   }, [isAuthenticated]);
@@ -133,6 +141,11 @@ export default function AdminPage() {
     );
   }
 
+  const handleLogout = () => {
+    localStorage.removeItem('admin_auth');
+    setIsAuthenticated(false);
+  };
+
   return (
     <div className="min-h-screen bg-black text-white p-6 md:p-12 font-sans flex items-center justify-center relative overflow-hidden">
       {/* Background Orbs */}
@@ -144,6 +157,14 @@ export default function AdminPage() {
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-4xl bg-white/5 backdrop-blur-2xl border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl relative z-10"
       >
+        <div className="absolute top-6 right-6">
+          <button 
+            onClick={handleLogout}
+            className="text-sm px-4 py-2 bg-white/5 hover:bg-white/10 rounded-lg transition-colors border border-white/10 text-white/70 hover:text-white"
+          >
+            Logout
+          </button>
+        </div>
         <div className="text-center mb-12">
           <h1 className="text-4xl font-extrabold mb-4 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
             Admin CMS
