@@ -124,7 +124,25 @@ export default function HomePage() {
       </div>
 
       {/* Glass Player (Premium Horizontal Pill Centered) */}
-      {displaySong && (
+      {loading ? (
+        <div className="absolute bottom-[45%] md:bottom-32 left-1/2 -translate-x-1/2 w-[95%] max-w-[400px] md:max-w-[650px] z-30 pointer-events-none">
+          <div className="w-full bg-white/[0.08] backdrop-blur-3xl rounded-[32px] p-2.5 md:p-4 flex flex-row items-center gap-3 md:gap-5 border border-white/[0.15] shadow-[0_16px_40px_rgba(0,0,0,0.5)] pointer-events-auto">
+            <div className="relative w-14 h-14 md:w-20 md:h-20 flex-shrink-0">
+              <div className="w-full h-full rounded-2xl md:rounded-[20px] bg-white/10 animate-pulse"></div>
+            </div>
+            <div className="flex-1 pl-1">
+              <div className="h-4 md:h-5 bg-white/10 rounded w-3/4 mb-2 animate-pulse"></div>
+              <div className="h-3 md:h-4 bg-white/10 rounded w-1/2 mb-3 animate-pulse"></div>
+              <div className="h-1 md:h-1.5 bg-white/10 rounded-full w-full animate-pulse"></div>
+            </div>
+            <div className="flex items-center gap-2.5 md:gap-4 pr-2 md:pr-4">
+              <div className="w-5 h-5 md:w-6 md:h-6 bg-white/20 rounded-full animate-pulse"></div>
+              <div className="w-12 h-12 md:w-14 md:h-14 bg-white/20 rounded-full animate-pulse"></div>
+              <div className="w-5 h-5 md:w-6 md:h-6 bg-white/20 rounded-full animate-pulse"></div>
+            </div>
+          </div>
+        </div>
+      ) : displaySong && (
         <div className="absolute bottom-[45%] md:bottom-32 left-1/2 -translate-x-1/2 w-[95%] max-w-[400px] md:max-w-[650px] z-30 pointer-events-none">
           <div className="w-full bg-white/[0.08] backdrop-blur-3xl rounded-[32px] p-2.5 md:p-4 flex flex-row items-center gap-3 md:gap-5 border border-white/[0.15] shadow-[0_16px_40px_rgba(0,0,0,0.5)] pointer-events-auto transition-transform hover:scale-[1.02]">
 
