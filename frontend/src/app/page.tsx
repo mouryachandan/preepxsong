@@ -88,9 +88,9 @@ export default function HomePage() {
       {/* Top Header Row */}
       <div className="relative z-20 w-full p-4 md:p-6 flex flex-row justify-between items-center">
         {/* Logo (Left) */}
-        <div className="flex items-center select-none z-10">
+        <a href="https://preepx.in" className="flex items-center select-none z-10 hover:opacity-80 transition-opacity">
           <Image src={preepxLogo} alt="PreepX Logo" className="h-16 md:h-24 w-auto object-contain drop-shadow-md" priority />
-        </div>
+        </a>
 
         {/* Online Pill (Center) */}
         <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-1.5 md:gap-2 bg-black/30 backdrop-blur-md px-3 py-1 md:px-4 md:py-1.5 rounded-full border border-white/10 shadow-sm pointer-events-auto z-10">
@@ -107,10 +107,20 @@ export default function HomePage() {
       </div>
 
       {/* Hero Title */}
-      <div className="absolute top-24 md:top-28 left-1/2 -translate-x-1/2 w-full px-4 text-center z-10 pointer-events-none">
+      <div className="absolute top-24 md:top-28 left-1/2 -translate-x-1/2 w-full px-4 text-center z-10 pointer-events-none flex flex-col items-center">
         <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-blue-400 via-blue-200 to-purple-400 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]">
           Music with Preepx
         </h1>
+        
+        {/* Promo Banner */}
+        <a href="https://preepx.in" target="_blank" rel="noopener noreferrer" className="mt-4 md:mt-6 pointer-events-auto group flex flex-col md:flex-row items-center gap-1.5 md:gap-3 px-5 py-2.5 bg-black/40 hover:bg-black/60 backdrop-blur-md rounded-full border border-white/10 transition-all duration-300 hover:border-blue-500/50 hover:shadow-[0_0_20px_rgba(59,130,246,0.3)] hover:-translate-y-0.5">
+          <span className="text-xs md:text-sm text-white/90 font-medium">
+            Preparing for interviews? Crack your dream job with AI.
+          </span>
+          <span className="text-xs md:text-sm font-bold bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text flex items-center gap-1">
+            Explore PreepX <span className="group-hover:translate-x-1 transition-transform">→</span>
+          </span>
+        </a>
       </div>
 
       {/* Glass Player (Premium Horizontal Pill Centered) */}
