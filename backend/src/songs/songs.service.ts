@@ -73,9 +73,17 @@ export class SongsService {
     };
   }
 
+  private trendingCache: { data: any; lastFetched: number } = { data: null, lastFetched: 0 };
+
   async getTrending() {
+    const now = Date.now();
+    if (this.trendingCache.data && (now - this.trendingCache.lastFetched < 5 * 60 * 1000)) {
+      return this.trendingCache.data;
+    }
     const songs = await this.songModel.aggregate([{ $sample: { size: 50 } }]).exec();
-    return this.mapSongs(songs);
+    this.trendingCache.data = this.mapSongs(songs);
+    this.trendingCache.lastFetched = now;
+    return this.trendingCache.data;
   }
 
   async getAllSongs() {
