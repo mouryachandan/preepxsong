@@ -6,7 +6,10 @@ import { SongsModule } from './songs/songs.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    MongooseModule.forRoot(process.env.MONGO_URI as string),
+    MongooseModule.forRoot(process.env.MONGO_URI as string, {
+      serverSelectionTimeoutMS: 5000,
+      family: 4,
+    }),
     SongsModule,
   ],
   controllers: [],

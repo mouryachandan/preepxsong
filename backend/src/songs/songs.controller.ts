@@ -59,7 +59,7 @@ export class SongsController {
 
   @Post('upload')
   @UseInterceptors(FileFieldsInterceptor([
-    { name: 'audio', maxCount: 30 },
+    { name: 'audio', maxCount: 5 }, // Reduced from 30 to prevent OOM
     { name: 'image', maxCount: 1 },
   ]))
   async uploadSong(
@@ -74,30 +74,5 @@ export class SongsController {
     return this.songsService.deleteSong(id);
   }
 
-  @Get('play/audio')
-  async proxyAudio(@Query('url') audioUrl: string, @Req() req: any, @Res() res: any) {
-    if (!audioUrl) return res.status(400).send('No URL');
-    try {
-      const axios = require('axios');
-      const headers: any = {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)',
-        'Referer': 'https://www.jiosaavn.com/',
-      };
-      if (req.headers.range) {
-        headers['Range'] = req.headers.range;
-      }
-      const response = await axios.get(audioUrl, {
-        responseType: 'stream',
-        headers,
-        validateStatus: () => true
-      });
-      res.status(response.status);
-      Object.keys(response.headers).forEach((key) => {
-        res.setHeader(key, response.headers[key]);
-      });
-      response.data.pipe(res);
-    } catch (error) {
-      res.status(500).send('Error proxying audio');
-    }
-  }
+
 }
